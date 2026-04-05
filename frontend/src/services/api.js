@@ -70,7 +70,8 @@ export const transactionAPI = {
 };
 
 export const categoryAPI = {
-  getAll: () => api.get("/categories"),
+  // Include trailing slash to avoid redirect and mixed content issues
+  getAll: () => api.get("/categories/"),
 };
 
 export const analyticsAPI = {
