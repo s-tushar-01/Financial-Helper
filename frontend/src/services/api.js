@@ -1,9 +1,7 @@
 import axios from "axios";
 
 // ✅ ENV se URL lo (important for Vercel)
-let API_BASE_URL =
-  "https://financial-helper-production-6395.up.railway.app";
-
+const API_BASE_URL = import.meta.env.VITE_API_URL;
 
 // ✅ Axios instance
 const api = axios.create({
