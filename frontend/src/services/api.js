@@ -11,6 +11,8 @@ const api = axios.create({
   },
 });
 
+// ================= INTERCEPTORS =================
+
 // ✅ Request interceptor (token auto attach)
 api.interceptors.request.use(
   (config) => {
@@ -40,7 +42,6 @@ api.interceptors.response.use(
       window.location.replace("/login");
     }
 
-    // Optional: handle other errors
     if (status === 500) {
       console.error("Server error 🔥");
     }
@@ -54,10 +55,18 @@ api.interceptors.response.use(
 export const authAPI = {
   login: async (username, password) => {
     try {
-      const response = await api.post(
-        "/auth/login",
-        new URLSearchParams({ username, password })
-      );
+      // ✅ Form data banana
+      const params = new URLSearchParams();
+      params.append("username", username);
+      params.append("password", password);
+      params.append("grant_type", "password"); // 🔥 MOST IMPORTANT
+
+      // ✅ Request with correct headers
+      const response = await api.post("/auth/login", params, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      });
 
       const token = response.data?.access_token;
 
@@ -138,7 +147,7 @@ export const transactionAPI = {
 export const categoryAPI = {
   getAll: async () => {
     try {
-      const res = await api.get("/categories/"); // trailing slash important
+      const res = await api.get("/categories/");
       return res.data;
     } catch (err) {
       console.error("Fetch categories failed ❌", err);
@@ -162,5 +171,5 @@ export const analyticsAPI = {
 };
 
 
-// ✅ Export instance (optional)
+// ✅ Export instance
 export default api;
