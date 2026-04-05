@@ -2,13 +2,8 @@ import axios from "axios";
 
 // ✅ ENV se URL lo (important for Vercel)
 let API_BASE_URL =
-  import.meta.env.VITE_API_URL ||
   "https://financial-helper-production-6395.up.railway.app";
 
-// 🔒 Enforce HTTPS if the page is loaded over HTTPS (prevent mixed content errors)
-if (typeof window !== 'undefined' && window.location.protocol === 'https:' && API_BASE_URL.startsWith('http://')) {
-  API_BASE_URL = API_BASE_URL.replace('http://', 'https://');
-}
 
 // ✅ Axios instance
 const api = axios.create({
